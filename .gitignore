@@ -28,6 +28,9 @@ next-env.d.ts
 
 # cursor
 .cursor/
+
+# iOS signing materials — NEVER commit private keys/certs
+ios-signing/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
