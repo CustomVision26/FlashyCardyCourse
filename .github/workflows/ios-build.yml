@@ -53,13 +53,16 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
+      # Capacitor 8 uses Swift Package Manager (not CocoaPods), so there is no
+      # .xcworkspace — build the .xcodeproj directly.
       - name: Build (unsigned, simulator SDK)
         run: |
           xcodebuild \
-            -workspace ios/App/App.xcworkspace \
+            -project ios/App/App.xcodeproj \
             -scheme App \
             -configuration Debug \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
+            -clonedSourcePackagesDirPath ~/.spm-cache \
             CODE_SIGNING_ALLOWED=NO \
             build
