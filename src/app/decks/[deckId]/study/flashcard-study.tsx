@@ -189,7 +189,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
 
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-8">
-        <div className="w-full max-w-md flex flex-col items-center gap-6 rounded-2xl border bg-card p-10 shadow-md text-center">
+        <div className="w-full max-w-md flex flex-col items-center gap-6 rounded-2xl border bg-card p-6 text-center shadow-md sm:p-10">
           <div className="flex flex-col items-center gap-2">
             <Trophy className="h-12 w-12 text-yellow-500" />
             <h2 className="text-2xl font-bold tracking-tight">Session Complete!</h2>
@@ -242,11 +242,11 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
   }
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-8">
+    <div className="flex flex-1 flex-col items-center gap-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:gap-8">
       {/* Progress bar */}
       <div className="w-full max-w-2xl flex flex-col gap-2">
         {/* Deck title */}
-        <h1 className="text-2xl font-bold tracking-tight">{deckName}</h1>
+        <h1 className="text-xl font-bold tracking-tight break-words sm:text-2xl">{deckName}</h1>
         <div className="flex justify-between text-sm text-muted-foreground">
           <span>
             Card {currentIndex + 1} of {total}
@@ -276,8 +276,8 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
         </div>
       </div>
 
-      {/* Keyboard hint */}
-      <p className="text-muted-foreground text-sm">
+      {/* Keyboard hint — desktop only */}
+      <p className="hidden text-muted-foreground text-sm sm:block">
         Use <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-xs">←</kbd>{" "}
         <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-xs">→</kbd>{" "}
         arrow keys to navigate and{" "}
@@ -294,12 +294,11 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
         aria-label={isFlipped ? "Card back — click to flip" : "Card front — click to flip"}
       >
         <div
+          className="relative h-[min(420px,55dvh)] min-h-[280px]"
           style={{
             transformStyle: "preserve-3d",
             transition: "transform 0.55s cubic-bezier(0.45, 0, 0.55, 1)",
             transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            position: "relative",
-            height: "420px",
           }}
         >
           {/* Front */}
@@ -307,9 +306,10 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
             style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
             className="absolute inset-0 flex flex-col rounded-2xl border bg-card shadow-md overflow-hidden"
           >
-            <div className="flex items-center justify-between px-5 pt-4 pb-2 shrink-0">
+            <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0 sm:px-5">
               <Badge variant="secondary" className="text-xs">Front</Badge>
-              <span className="text-muted-foreground text-xs">Click to reveal answer</span>
+              <span className="text-muted-foreground text-xs sm:hidden">Tap to flip</span>
+              <span className="text-muted-foreground hidden text-xs sm:inline">Click to reveal answer</span>
             </div>
             {currentCard.frontImageUrl && (
               <div className="shrink-0 px-6 pb-2">
@@ -324,7 +324,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
                 </div>
               </div>
             )}
-            <div className="flex-1 min-h-0 overflow-y-auto px-8 py-3 flex flex-col items-center justify-center">
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3 flex flex-col items-center justify-center sm:px-8">
               {currentCard.front && (
                 <p className="text-center text-xl font-semibold leading-relaxed">
                   {currentCard.front}
@@ -342,9 +342,10 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
             }}
             className="absolute inset-0 flex flex-col rounded-2xl border bg-card shadow-md overflow-hidden"
           >
-            <div className="flex items-center justify-between px-5 pt-4 pb-2 shrink-0">
+            <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0 sm:px-5">
               <Badge variant="outline" className="text-xs">Back</Badge>
-              <span className="text-muted-foreground text-xs">Click to flip back</span>
+              <span className="text-muted-foreground text-xs sm:hidden">Tap to flip</span>
+              <span className="text-muted-foreground hidden text-xs sm:inline">Click to flip back</span>
             </div>
             {currentCard.backImageUrl && (
               <div className="shrink-0 px-6 pb-2">
@@ -359,7 +360,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
                 </div>
               </div>
             )}
-            <div className="flex-1 min-h-0 overflow-y-auto px-8 py-3 flex flex-col justify-center">
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3 flex flex-col justify-center sm:px-8">
               {currentCard.back && <FormattedCardBack text={currentCard.back} />}
             </div>
           </div>
@@ -372,10 +373,10 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
           <p className="text-sm text-muted-foreground italic text-center max-w-sm">
             🤝 Be honest with yourself — your growth depends on it. Did you really get it right?
           </p>
-        <div className="flex items-center gap-4">
+        <div className="flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:items-center sm:gap-4">
           <Button
             size="lg"
-            className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="min-h-11 w-full gap-2 bg-emerald-600 hover:bg-emerald-700 text-white sm:w-auto"
             onClick={handleCorrect}
           >
             <CheckCircle className="h-5 w-5" />
@@ -384,7 +385,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
           <Button
             size="lg"
             variant="destructive"
-            className="gap-2"
+            className="min-h-11 w-full gap-2 sm:w-auto"
             onClick={handleIncorrect}
           >
             <XCircle className="h-5 w-5" />
@@ -395,11 +396,11 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
       )}
 
       {/* Navigation controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex w-full max-w-2xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
         <Button
           variant="outline"
           size="lg"
-          className="gap-2"
+          className="min-h-11 w-full gap-2 sm:w-auto"
           onClick={handlePrevious}
           disabled={currentIndex === 0}
         >
@@ -410,7 +411,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
         <Button
           variant="secondary"
           size="lg"
-          className="gap-2 min-w-28"
+          className="min-h-11 w-full gap-2 sm:min-w-28 sm:w-auto"
           onClick={handleFlip}
         >
           <RefreshCw className="h-4 w-4" />
@@ -420,7 +421,7 @@ export function FlashcardStudy({ cards, deckId, deckName }: FlashcardStudyProps)
         <Button
           variant="outline"
           size="lg"
-          className="gap-2"
+          className="min-h-11 w-full gap-2 sm:w-auto"
           onClick={handleNext}
           disabled={currentIndex === total - 1}
         >

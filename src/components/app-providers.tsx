@@ -27,7 +27,20 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
       enableColorScheme
     >
       <ThemeStorageNormalize>
-        <ClerkProvider appearance={{ baseTheme: shadcn }}>{children}</ClerkProvider>
+        <ClerkProvider
+          signInFallbackRedirectUrl="/dashboard"
+          signUpFallbackRedirectUrl="/dashboard"
+          appearance={{
+            baseTheme: shadcn,
+            layout: {
+              logoImageUrl: "/FLIPVISE_logo.png",
+              logoLinkUrl: "/",
+              logoPlacement: "inside",
+            },
+          }}
+        >
+          {children}
+        </ClerkProvider>
       </ThemeStorageNormalize>
     </ThemeProvider>
   );

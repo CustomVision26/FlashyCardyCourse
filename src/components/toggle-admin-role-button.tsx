@@ -65,7 +65,7 @@ export function ToggleAdminRoleButton({
             </AlertDialogTitle>
             <AlertDialogDescription>
               {isAdmin
-                ? "This will remove admin privileges from the following user. The change is recorded in the Privilege Audit Log."
+                ? "This will remove admin privileges from the following user. Complimentary Pro (if any) returns to how it was before they became admin; paid Pro from billing and its expiration are unchanged. The change is recorded in the Privilege Audit Log."
                 : "This will grant admin privileges to the following user. They will be able to access admin tools. The change is recorded in the Privilege Audit Log."}
             </AlertDialogDescription>
             <AdminUserIdentityBlock

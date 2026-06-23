@@ -120,7 +120,7 @@ export function CardGrid({ cards, deckId }: CardGridProps) {
                 Back
               </p>
               {card.back && (
-                <p className="text-foreground mt-1 text-sm">{card.back}</p>
+                <p className="text-foreground mt-1 line-clamp-4 text-sm">{card.back}</p>
               )}
               {card.backImageUrl && (
                 <div className="mt-2 rounded-md overflow-hidden border border-border">

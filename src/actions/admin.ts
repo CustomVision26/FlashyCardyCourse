@@ -5,6 +5,10 @@ import { createClerkClient } from "@clerk/backend";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { logAdminPrivilegeChange } from "@/db/queries/admin";
+import {
+  buildPublicMetadataPatchForAdminRoleGrant,
+  buildPublicMetadataPatchForAdminRoleRevoke,
+} from "@/lib/admin-role-metadata";
 
 const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
@@ -61,8 +65,18 @@ export async function toggleAdminRoleAction(data: ToggleAdminRoleInput) {
   const { targetUserId, targetUserName, grant } = parsed.data;
   if (targetUserId === userId) throw new Error("Cannot modify your own admin role");
 
+  const target = await clerkClient.users.getUser(targetUserId);
+  const previousMeta = target.publicMetadata as Record<string, unknown> | undefined;
+
+  // Admin Pro unlock comes from `role === "admin"` alone (`getAccessContext` / client header).
+  // Capture complimentary `adminGranted` in `preAdminGrantSnapshot` so revoking admin restores
+  // the prior grant state; Clerk Billing + `has()` continue to control paid plan and expiration.
+  const publicMetadata = grant
+    ? buildPublicMetadataPatchForAdminRoleGrant(previousMeta)
+    : buildPublicMetadataPatchForAdminRoleRevoke(previousMeta);
+
   await clerkClient.users.updateUserMetadata(targetUserId, {
-    publicMetadata: { role: grant ? "admin" : null } as Record<string, unknown>,
+    publicMetadata: publicMetadata as Record<string, unknown>,
   });
 
   const callerName =

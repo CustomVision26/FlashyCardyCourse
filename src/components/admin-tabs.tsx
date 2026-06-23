@@ -116,39 +116,43 @@ export function AdminTabs({ currentUserId, users, logs }: AdminTabsProps) {
 
   return (
     <Tabs defaultValue="all-users">
-      <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 h-auto">
-        <TabsTrigger
-          value="all-users"
-          className="rounded-none border-b-2 border-transparent px-6 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-        >
-          <Users className="h-4 w-4 mr-2" />
-          All Users
-          {bannedCount > 0 && (
-            <Badge variant="destructive" className="ml-2 text-xs h-5 px-1.5">
-              {bannedCount} banned
-            </Badge>
-          )}
-        </TabsTrigger>
-        <TabsTrigger
-          value="admin-roles"
-          className="rounded-none border-b-2 border-transparent px-6 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-        >
-          <ShieldCheck className="h-4 w-4 mr-2" />
-          Admin Role Management
-        </TabsTrigger>
-        <TabsTrigger
-          value="audit-log"
-          className="rounded-none border-b-2 border-transparent px-6 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-        >
-          <ClipboardList className="h-4 w-4 mr-2" />
-          Privilege Audit Log
-          {logs.length > 0 && (
-            <Badge className="ml-2 text-xs h-5 px-1.5" variant="secondary">
-              {logs.length}
-            </Badge>
-          )}
-        </TabsTrigger>
-      </TabsList>
+      <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <TabsList className="h-auto w-max min-w-full justify-start rounded-none border-b bg-transparent p-0">
+          <TabsTrigger
+            value="all-users"
+            className="shrink-0 rounded-none border-b-2 border-transparent px-4 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:px-6"
+          >
+            <Users className="mr-2 h-4 w-4" />
+            All Users
+            {bannedCount > 0 && (
+              <Badge variant="destructive" className="ml-2 h-5 px-1.5 text-xs">
+                {bannedCount} banned
+              </Badge>
+            )}
+          </TabsTrigger>
+          <TabsTrigger
+            value="admin-roles"
+            className="shrink-0 rounded-none border-b-2 border-transparent px-4 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:px-6"
+          >
+            <ShieldCheck className="mr-2 h-4 w-4" />
+            <span className="sm:hidden">Roles</span>
+            <span className="hidden sm:inline">Admin Role Management</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="audit-log"
+            className="shrink-0 rounded-none border-b-2 border-transparent px-4 py-3 font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:px-6"
+          >
+            <ClipboardList className="mr-2 h-4 w-4" />
+            <span className="sm:hidden">Audit</span>
+            <span className="hidden sm:inline">Privilege Audit Log</span>
+            {logs.length > 0 && (
+              <Badge className="ml-2 h-5 px-1.5 text-xs" variant="secondary">
+                {logs.length}
+              </Badge>
+            )}
+          </TabsTrigger>
+        </TabsList>
+      </div>
 
       {/* ── All Users ── */}
       <TabsContent value="all-users" className="mt-0">
@@ -161,10 +165,10 @@ export function AdminTabs({ currentUserId, users, logs }: AdminTabsProps) {
                   {filteredUsers.length} of {users.length} users
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
                 {/* Search */}
-                <div className="relative min-w-[220px]">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                <div className="relative w-full sm:min-w-[220px] sm:flex-1">
+                  <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     placeholder="Search by name or email…"
                     value={search}
@@ -177,7 +181,7 @@ export function AdminTabs({ currentUserId, users, logs }: AdminTabsProps) {
                   value={planFilter}
                   onValueChange={(v) => setPlanFilter(v as PlanFilter)}
                 >
-                  <SelectTrigger className="w-[130px]">
+                  <SelectTrigger className="w-full sm:w-[130px]">
                     <SelectValue placeholder="Plan" />
                   </SelectTrigger>
                   <SelectContent>
@@ -191,7 +195,7 @@ export function AdminTabs({ currentUserId, users, logs }: AdminTabsProps) {
                   value={roleFilter}
                   onValueChange={(v) => setRoleFilter(v as RoleFilter)}
                 >
-                  <SelectTrigger className="w-[130px]">
+                  <SelectTrigger className="w-full sm:w-[130px]">
                     <SelectValue placeholder="Role" />
                   </SelectTrigger>
                   <SelectContent>
@@ -205,7 +209,7 @@ export function AdminTabs({ currentUserId, users, logs }: AdminTabsProps) {
                   value={statusFilter}
                   onValueChange={(v) => setStatusFilter(v as StatusFilter)}
                 >
-                  <SelectTrigger className="w-[130px]">
+                  <SelectTrigger className="w-full sm:w-[130px]">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>

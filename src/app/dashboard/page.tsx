@@ -44,11 +44,11 @@ export default async function DashboardPage() {
     : 0;
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-8">
+    <div className="flex flex-1 flex-col gap-6 p-4 sm:p-6 lg:p-8">
       {/* Page header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Dashboard</h1>
           <p className="text-muted-foreground mt-1">Manage your flashcard decks</p>
         </div>
         <div className="flex flex-col items-stretch gap-3 sm:items-end">

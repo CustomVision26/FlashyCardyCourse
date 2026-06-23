@@ -185,13 +185,13 @@ export default async function AdminPage() {
   }));
 
   return (
-    <div className="flex flex-1 flex-col gap-8 p-8">
+    <div className="flex flex-1 flex-col gap-6 p-4 sm:gap-8 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-1">
-            Monitor and manage all users across FlashyCardy
+            Monitor and manage all users across Flipvise
           </p>
         </div>
         <Link

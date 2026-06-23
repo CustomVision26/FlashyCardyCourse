@@ -5,7 +5,12 @@ const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
 
-type PublicMeta = { role?: string; adminGranted?: boolean };
+type PublicMeta = {
+  role?: string;
+  adminGranted?: boolean;
+  /** Written when admin is granted; used to restore `adminGranted` after admin is removed. */
+  preAdminGrantSnapshot?: { adminGranted: boolean };
+};
 
 /**
  * Returns the full access context for the current user, combining Clerk

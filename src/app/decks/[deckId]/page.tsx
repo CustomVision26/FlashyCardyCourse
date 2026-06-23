@@ -41,18 +41,18 @@ export default async function DeckPage({ params }: DeckPageProps) {
   const isAtCardLimit = cards.length >= deckCardLimit;
 
   return (
-    <div className="flex flex-1 flex-col gap-8 p-8">
+    <div className="flex flex-1 flex-col gap-6 p-4 sm:gap-8 sm:p-6 lg:p-8">
       {/* Deck section */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex flex-col gap-1">
+          <div className="flex min-w-0 flex-col gap-1">
             <Link
               href="/dashboard"
               className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               ← Dashboard
             </Link>
-            <h1 className="text-3xl font-bold tracking-tight">{deck.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight break-words sm:text-3xl">{deck.name}</h1>
             {deck.description && (
               <p className="text-muted-foreground mt-1">{deck.description}</p>
             )}
@@ -76,10 +76,8 @@ export default async function DeckPage({ params }: DeckPageProps) {
               ) : (
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger>
-                      <span>
-                        <Button disabled>🧠 Brain Challenge</Button>
-                      </span>
+                    <TooltipTrigger render={<Button disabled />}>
+                      🧠 Brain Challenge
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Lets go! and test my memory bank</p>
@@ -132,7 +130,7 @@ export default async function DeckPage({ params }: DeckPageProps) {
 
       {/* Cards section */}
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold">Cards</h2>
           <AddCardDialog deckId={id} isAtLimit={isAtCardLimit} />
         </div>

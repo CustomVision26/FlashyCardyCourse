@@ -25,18 +25,18 @@ export default async function StudyPage({ params }: StudyPageProps) {
   if (cards.length === 0) redirect(`/decks/${id}`);
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-8">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
+    <div className="flex flex-1 flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:p-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-col gap-1">
           <Link
             href={`/decks/${id}`}
-            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+            className="text-muted-foreground hover:text-foreground truncate text-sm transition-colors"
           >
             ← Back to {deck.name}
           </Link>
-          <h1 className="text-2xl font-bold tracking-tight">Study Session</h1>
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl">Study Session</h1>
         </div>
-        <Badge variant="secondary">
+        <Badge variant="secondary" className="w-fit shrink-0">
           {cards.length} card{cards.length !== 1 ? "s" : ""}
         </Badge>
       </div>
