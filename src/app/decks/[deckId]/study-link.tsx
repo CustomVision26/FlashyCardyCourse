@@ -13,13 +13,15 @@ export function StudyLink({ deckId }: { deckId: number }) {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Link
-            href={`/decks/${deckId}/study`}
-            className={buttonVariants({ variant: "default" })}
-          >
-            🧠 Brain Challenge
-          </Link>
+        <TooltipTrigger
+          render={
+            <Link
+              href={`/decks/${deckId}/study`}
+              className={buttonVariants({ variant: "default" })}
+            />
+          }
+        >
+          🧠 Brain Challenge
         </TooltipTrigger>
         <TooltipContent>
           <p>Lets go! and test my memory bank</p>
