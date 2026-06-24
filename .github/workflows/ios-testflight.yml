@@ -25,6 +25,7 @@ jobs:
       KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
       ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
       TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      PROFILE_NAME: "Flipvise App Store CI"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,6 +77,18 @@ jobs:
           mkdir -p "$HOME/private_keys"
           printf '%s' "$API_PRIVATE_KEY" > "$HOME/private_keys/AuthKey_${KEY_ID}.p8"
 
+      - name: Create & install App Store provisioning profile
+        run: |
+          export ASC_KEY_ID="$KEY_ID"
+          export ASC_ISSUER_ID="$ISSUER_ID"
+          export ASC_P8_PATH="$HOME/private_keys/AuthKey_${KEY_ID}.p8"
+          export APP_BUNDLE_ID="$APP_BUNDLE_ID"
+          export OUT_PATH="$RUNNER_TEMP/flipvise.mobileprovision"
+          node scripts/asc-create-profile.mjs
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/flipvise.mobileprovision" \
+            "$HOME/Library/MobileDevice/Provisioning Profiles/flipvise.mobileprovision"
+
       - name: Archive
         run: |
           xcodebuild \
@@ -84,12 +97,10 @@ jobs:
             -configuration Release \
             -destination 'generic/platform=iOS' \
             -archivePath "$RUNNER_TEMP/App.xcarchive" \
-            -authenticationKeyPath "$HOME/private_keys/AuthKey_${KEY_ID}.p8" \
-            -authenticationKeyID "$KEY_ID" \
-            -authenticationKeyIssuerID "$ISSUER_ID" \
-            -allowProvisioningUpdates \
             DEVELOPMENT_TEAM="$TEAM_ID" \
-            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
             archive
 
       - name: Export IPA
@@ -106,7 +117,14 @@ jobs:
             <key>teamID</key>
             <string>${TEAM_ID}</string>
             <key>signingStyle</key>
-            <string>automatic</string>
+            <string>manual</string>
+            <key>signingCertificate</key>
+            <string>Apple Distribution</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>${APP_BUNDLE_ID}</key>
+              <string>${PROFILE_NAME}</string>
+            </dict>
             <key>uploadSymbols</key>
             <true/>
           </dict>
@@ -115,11 +133,7 @@ jobs:
           xcodebuild -exportArchive \
             -archivePath "$RUNNER_TEMP/App.xcarchive" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            -exportPath "$RUNNER_TEMP/export" \
-            -authenticationKeyPath "$HOME/private_keys/AuthKey_${KEY_ID}.p8" \
-            -authenticationKeyID "$KEY_ID" \
-            -authenticationKeyIssuerID "$ISSUER_ID" \
-            -allowProvisioningUpdates
+            -exportPath "$RUNNER_TEMP/export"
 
       - name: Validate IPA
         run: |
