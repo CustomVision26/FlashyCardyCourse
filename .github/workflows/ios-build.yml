@@ -25,7 +25,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     env:
       CAPACITOR_SERVER_URL: ${{ vars.CAPACITOR_SERVER_URL }}
     steps:
